@@ -1,9 +1,6 @@
 /*
- * Tailwind v4 entry: config lives here, with no tailwind.config.js or PostCSS plugin.
- * - Keep every @import in this top block, above @theme and the rest of the file. Install an
- *   npm package before @importing its CSS. Never @import a remote URL (web fonts, CDN CSS): the
- *   build resolves @import from the filesystem. Load those with a <link> in the head() of
- *   src/routes/__root.tsx and name the family in a --font-* token in @theme inline below.
+ * Tailwind v4 entry. Keep every @import in this top block.
+ * Fonts are loaded via <link> in src/routes/__root.tsx.
  */
 @import "tailwindcss" source(none);
 @source "../src";
@@ -12,31 +9,30 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Design system definition.
- *
- * The design lives in this file: oklch color tokens on the shadcn variables
- * (--background, --foreground, --primary, --secondary, --muted, --accent, ...) plus
- * new tokens as needed, font tokens, and custom styles and animations.
- *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
- *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ * FLUG AI design system — strict four-color palette (colorhunt 450c3f / b9d175 / d9efbd / f5fbda).
+ * Every surface, border and shadow is one of these four colors or a shade/tint mix of them.
  */
 
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
+  --font-display: "Press Start 2P", monospace;
+  --font-sans: "Pixelify Sans", monospace;
+  --font-mono: "VT323", monospace;
+
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --radius-4xl: 0px;
+
+  --color-flug-purple: var(--flug-purple);
+  --color-flug-night: var(--flug-night);
+  --color-flug-dusk: var(--flug-dusk);
+  --color-flug-sage: var(--flug-sage);
+  --color-flug-mint: var(--flug-mint);
+  --color-flug-cream: var(--flug-cream);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -57,99 +53,563 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+  --color-google-bg: var(--google-bg);
+  --color-google-border: var(--google-border);
+  --color-google-text: var(--google-text);
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
-}
+  --radius: 0px;
+  --px: 4px;
 
-.dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
+  /* The palette */
+  --flug-purple: oklch(0.28 0.107 332.75); /* #450C3F */
+  --flug-sage: oklch(0.822 0.121 121.09); /* #B9D175 */
+  --flug-mint: oklch(0.923 0.07 127.05); /* #D9EFBD */
+  --flug-cream: oklch(0.975 0.044 115.58); /* #F5FBDA */
+  /* Shades of the deep purple for depth */
+  --flug-night: oklch(0.2 0.08 332.75);
+  --flug-dusk: oklch(0.36 0.11 332.75);
+
+  --background: var(--flug-purple);
+  --foreground: var(--flug-cream);
+  --card: var(--flug-night);
+  --card-foreground: var(--flug-cream);
+  --popover: var(--flug-night);
+  --popover-foreground: var(--flug-cream);
+  --primary: var(--flug-sage);
+  --primary-foreground: var(--flug-purple);
+  --secondary: var(--flug-mint);
+  --secondary-foreground: var(--flug-purple);
+  --muted: var(--flug-dusk);
+  --muted-foreground: oklch(0.86 0.06 120);
+  --accent: var(--flug-mint);
+  --accent-foreground: var(--flug-purple);
+  --destructive: var(--flug-sage);
+  --destructive-foreground: var(--flug-purple);
+  --border: var(--flug-sage);
+  --input: var(--flug-cream);
+  --ring: var(--flug-sage);
+
+  /* Google brand button (required by Google branding guidelines) */
+  --google-bg: #ffffff;
+  --google-border: #747775;
+  --google-text: #1f1f1f;
 }
 
 @layer base {
   * {
     border-color: var(--color-border);
   }
-
+  html,
   body {
-    background-color: var(--color-background);
+    background-color: var(--flug-night);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: none;
+    cursor: url("/cursor.svg") 2 2, auto;
+  }
+  a,
+  button,
+  [role="button"],
+  label[for],
+  select {
+    cursor: url("/cursor-pointer.svg") 6 2, pointer;
+  }
+  textarea,
+  input {
+    cursor: text;
+  }
+  ::selection {
+    background: var(--flug-sage);
+    color: var(--flug-purple);
+  }
+  :focus-visible {
+    outline: var(--px) solid var(--flug-sage);
+    outline-offset: 2px;
+  }
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--flug-night);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--flug-sage);
+    border: 3px solid var(--flug-night);
+  }
+}
+
+@layer components {
+  /* Chunky pixel frame: stepped borders with notched corners + hard offset shadow. */
+  .pixel-frame {
+    --frame: var(--flug-purple);
+    --drop: var(--flug-night);
+    position: relative;
+    box-shadow:
+      0 calc(var(--px) * -1) 0 0 var(--frame),
+      0 var(--px) 0 0 var(--frame),
+      calc(var(--px) * -1) 0 0 0 var(--frame),
+      var(--px) 0 0 0 var(--frame),
+      var(--px) calc(var(--px) * 2) 0 0 var(--drop),
+      calc(var(--px) * 2) var(--px) 0 0 var(--drop);
+  }
+  .pixel-frame-flat {
+    --frame: var(--flug-purple);
+    box-shadow:
+      0 calc(var(--px) * -1) 0 0 var(--frame),
+      0 var(--px) 0 0 var(--frame),
+      calc(var(--px) * -1) 0 0 0 var(--frame),
+      var(--px) 0 0 0 var(--frame);
+  }
+  .frame-sage {
+    --frame: var(--flug-sage);
+  }
+  .frame-mint {
+    --frame: var(--flug-mint);
+  }
+  .frame-cream {
+    --frame: var(--flug-cream);
+  }
+  .frame-dusk {
+    --frame: var(--flug-dusk);
+  }
+  .drop-purple {
+    --drop: var(--flug-purple);
+  }
+
+  /* Pixel buttons */
+  .pixel-btn {
+    --frame: var(--flug-night);
+    --drop: var(--flug-night);
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: var(--font-display);
+    font-size: 10px;
+    line-height: 1.4;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    padding: 0.75rem 1rem;
+    margin: var(--px);
+    user-select: none;
+    transition: transform 80ms steps(2), box-shadow 80ms steps(2);
+    box-shadow:
+      0 calc(var(--px) * -1) 0 0 var(--frame),
+      0 var(--px) 0 0 var(--frame),
+      calc(var(--px) * -1) 0 0 0 var(--frame),
+      var(--px) 0 0 0 var(--frame),
+      inset calc(var(--px) * -1) calc(var(--px) * -1) 0 0 color-mix(in oklab, var(--flug-purple) 22%, transparent),
+      var(--px) calc(var(--px) * 2) 0 0 var(--drop),
+      calc(var(--px) * 2) var(--px) 0 0 var(--drop);
+  }
+  .pixel-btn:hover:not(:disabled) {
+    transform: translate(-2px, -2px);
+  }
+  .pixel-btn:active:not(:disabled) {
+    transform: translate(4px, 4px);
+    box-shadow:
+      0 calc(var(--px) * -1) 0 0 var(--frame),
+      0 var(--px) 0 0 var(--frame),
+      calc(var(--px) * -1) 0 0 0 var(--frame),
+      var(--px) 0 0 0 var(--frame);
+  }
+  .pixel-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+  .pixel-btn-primary {
+    background: var(--flug-sage);
+    color: var(--flug-purple);
+  }
+  .pixel-btn-primary:hover:not(:disabled) {
+    background: var(--flug-mint);
+  }
+  .pixel-btn-soft {
+    background: var(--flug-mint);
+    color: var(--flug-purple);
+  }
+  .pixel-btn-soft:hover:not(:disabled) {
+    background: var(--flug-cream);
+  }
+  .pixel-btn-cream {
+    background: var(--flug-cream);
+    color: var(--flug-purple);
+  }
+  .pixel-btn-cream:hover:not(:disabled) {
+    background: var(--flug-sage);
+  }
+  .pixel-btn-dark {
+    --frame: var(--flug-sage);
+    background: var(--flug-purple);
+    color: var(--flug-cream);
+  }
+  .pixel-btn-dark:hover:not(:disabled) {
+    background: var(--flug-dusk);
+  }
+  .pixel-btn-icon {
+    padding: 0.5rem;
+    min-width: 2.25rem;
+    min-height: 2.25rem;
+  }
+  .pixel-btn-google {
+    background: var(--google-bg);
+    color: var(--google-text);
+    --frame: var(--google-border);
+    font-family: var(--font-sans);
+    text-transform: none;
+    font-size: 15px;
+  }
+
+  /* Tiny icon-only toolbar button */
+  .pixel-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: var(--font-display);
+    font-size: 8px;
+    text-transform: uppercase;
+    padding: 0.35rem 0.5rem;
+    color: var(--flug-purple);
+    background: color-mix(in oklab, var(--flug-cream) 70%, transparent);
+    transition: transform 80ms steps(2);
+  }
+  .pixel-chip:hover {
+    background: var(--flug-cream);
+    transform: translateY(-2px);
+  }
+
+  /* Dialogue boxes */
+  .bubble-flug {
+    background: var(--flug-mint);
+    color: var(--flug-purple);
+  }
+  .bubble-pilot {
+    background: var(--flug-sage);
+    color: var(--flug-purple);
+  }
+  .bubble-tail-left::before,
+  .bubble-tail-right::before {
+    content: "";
+    position: absolute;
+    top: 14px;
+    width: 8px;
+    height: 8px;
+    background: inherit;
+    box-shadow: 0 calc(var(--px) * -1) 0 0 var(--frame), 0 var(--px) 0 0 var(--frame);
+  }
+  .bubble-tail-left::before {
+    left: -12px;
+    box-shadow:
+      0 calc(var(--px) * -1) 0 0 var(--frame),
+      0 var(--px) 0 0 var(--frame),
+      calc(var(--px) * -1) 0 0 0 var(--frame);
+  }
+  .bubble-tail-right::before {
+    right: -12px;
+    box-shadow:
+      0 calc(var(--px) * -1) 0 0 var(--frame),
+      0 var(--px) 0 0 var(--frame),
+      var(--px) 0 0 0 var(--frame);
+  }
+
+  .avatar-tile {
+    background: var(--flug-cream);
+  }
+
+  .pixel-title {
+    font-family: var(--font-display);
+    text-shadow:
+      3px 3px 0 var(--flug-night),
+      -1px -1px 0 var(--flug-night);
+  }
+
+  .pixel-input {
+    background: var(--flug-cream);
+    color: var(--flug-purple);
+    font-family: var(--font-sans);
+  }
+  .pixel-input::placeholder {
+    color: color-mix(in oklab, var(--flug-purple) 55%, var(--flug-cream));
+  }
+  .pixel-input:focus {
+    outline: none;
+  }
+
+  /* Scanlines overlay for the CRT feel */
+  .scanlines {
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--flug-night) 22%, transparent) 0 2px,
+      transparent 2px 4px
+    );
+  }
+
+  .pixelated {
+    image-rendering: pixelated;
+    shape-rendering: crispEdges;
+  }
+
+  /* Markdown inside Flug's dialogue */
+  .flug-prose {
+    font-size: 1.075rem;
+    line-height: 1.55;
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+  }
+  .flug-prose > * + * {
+    margin-top: 0.7em;
+  }
+  .flug-prose h1,
+  .flug-prose h2,
+  .flug-prose h3,
+  .flug-prose h4 {
+    font-family: var(--font-display);
+    line-height: 1.6;
+    margin-top: 1.1em;
+  }
+  .flug-prose h1 {
+    font-size: 0.85rem;
+  }
+  .flug-prose h2 {
+    font-size: 0.78rem;
+  }
+  .flug-prose h3,
+  .flug-prose h4 {
+    font-size: 0.7rem;
+  }
+  .flug-prose strong {
+    font-weight: 700;
+  }
+  .flug-prose a {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+  }
+  .flug-prose ul,
+  .flug-prose ol {
+    padding-left: 1.4em;
+  }
+  .flug-prose ul {
+    list-style: none;
+  }
+  .flug-prose ul > li {
+    position: relative;
+  }
+  .flug-prose ul > li::before {
+    content: "";
+    position: absolute;
+    left: -1em;
+    top: 0.6em;
+    width: 6px;
+    height: 6px;
+    background: currentColor;
+  }
+  .flug-prose ol {
+    list-style: decimal;
+  }
+  .flug-prose li + li {
+    margin-top: 0.25em;
+  }
+  .flug-prose blockquote {
+    border-left: var(--px) solid var(--flug-purple);
+    padding-left: 0.8em;
+    opacity: 0.85;
+  }
+  .flug-prose :not(pre) > code {
+    font-family: var(--font-mono);
+    font-size: 1.15em;
+    background: color-mix(in oklab, var(--flug-purple) 14%, transparent);
+    padding: 0 0.3em;
+  }
+  .flug-prose table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95em;
+  }
+  .flug-prose th,
+  .flug-prose td {
+    border: 2px solid var(--flug-purple);
+    padding: 0.3em 0.5em;
+    text-align: left;
+  }
+  .flug-prose th {
+    background: color-mix(in oklab, var(--flug-purple) 12%, transparent);
+  }
+  .flug-prose hr {
+    border: 0;
+    border-top: var(--px) dashed var(--flug-purple);
+  }
+  .code-block {
+    background: var(--flug-purple);
+    color: var(--flug-mint);
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    line-height: 1.35;
+  }
+}
+
+/* ---------- Animations (steps() keeps them chunky like old sprites) ---------- */
+@keyframes flug-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6%);
+  }
+}
+@keyframes flug-think {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-6deg);
+  }
+}
+@keyframes flug-hop {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-12%);
+  }
+}
+@keyframes flug-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-6%);
+  }
+  75% {
+    transform: translateX(6%);
+  }
+}
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes blink-caret {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes dot-hop {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-6px);
+  }
+}
+@keyframes ship-launch {
+  0% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-40px, -140px);
+    opacity: 0;
+  }
+}
+@keyframes flame {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+}
+@keyframes pixel-pop {
+  0% {
+    transform: scale(0.92);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes drift {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.anim-flug-idle {
+  animation: flug-bob 1.6s steps(2, jump-none) infinite;
+}
+.anim-flug-thinking {
+  animation: flug-think 1s steps(2, jump-none) infinite;
+  transform-origin: 50% 90%;
+}
+.anim-flug-responding {
+  animation: flug-hop 0.6s steps(3, jump-none) infinite;
+}
+.anim-flug-error {
+  animation: flug-shake 0.4s steps(2, jump-none) 3;
+}
+.anim-twinkle {
+  animation: twinkle 3s steps(3, jump-none) infinite;
+}
+.anim-caret {
+  animation: blink-caret 0.9s steps(1) infinite;
+}
+.anim-dot {
+  animation: dot-hop 1s steps(3, jump-none) infinite;
+}
+.anim-ship-launch {
+  animation: ship-launch 0.7s steps(7) forwards;
+}
+.anim-flame {
+  animation: flame 0.3s steps(1) infinite;
+}
+.anim-pop {
+  animation: pixel-pop 0.18s steps(3) both;
+}
+.anim-drift {
+  animation: drift 4s steps(4, jump-none) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-flug-idle,
+  .anim-flug-thinking,
+  .anim-flug-responding,
+  .anim-flug-error,
+  .anim-twinkle,
+  .anim-dot,
+  .anim-ship-launch,
+  .anim-flame,
+  .anim-pop,
+  .anim-drift {
+    animation: none !important;
+  }
+  .anim-ship-launch {
+    display: none;
   }
 }
